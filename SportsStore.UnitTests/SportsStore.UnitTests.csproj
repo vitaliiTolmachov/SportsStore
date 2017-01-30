@@ -101,13 +101,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SportsStore.Domain\SportsStore.Domain.csproj">
-      <Project>{f0fbf76e-dbf8-4ab0-bfa3-02cacc4dd717}</Project>
-      <Name>SportsStore.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SportsStore\SportsStore.Web.UI.csproj">
       <Project>{71A55A57-0EC8-4C6F-987E-8D29765DE494}</Project>
       <Name>SportsStore.Web.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Test\SportsStore.Domain.csproj">
+      <Project>{b9c87490-bdd1-4831-94c4-58c373febdc2}</Project>
+      <Name>SportsStore.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

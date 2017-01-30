@@ -7,6 +7,7 @@ using Moq;
 using Ninject;
 using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Entities;
+using SportsStore.Domain.Concrete;
 
 namespace SportsStore.Infrastructure
 {
@@ -33,15 +34,19 @@ namespace SportsStore.Infrastructure
         private void AddBindings()
         {
             //My bindings will be here
-            var mock = new Mock<IProductRepository>();
-            mock.Setup(m => m.Products).Returns(new List<Product>
-            {
-                new Product {Name = "Fooball", Price = 25},
-                new Product {Name = "Surfboard", Price = 50},
-                new Product {Name = "RuningShoes", Price = 15},
-                new Product {Name = "Snowboard", Price = 100}
-            });
-            kernel.Bind<IProductRepository>().ToConstant(mock.Object);
+			//This binding returns data from DB using my own realization of DBContext
+	        this.kernel.Bind<IProductRepository>().To<EFProductRepository>();
+
+	        //This mock returns constant collection of Products
+	        //var mock = new Mock<IProductRepository>();
+	        //mock.Setup(m => m.Products).Returns(new List<Product>
+	        //{
+	        //    new Product {Name = "Fooball", Price = 25},
+	        //    new Product {Name = "Surfboard", Price = 50},
+	        //    new Product {Name = "RuningShoes", Price = 15},
+	        //    new Product {Name = "Snowboard", Price = 100}
+	        //});
+	        //kernel.Bind<IProductRepository>().ToConstant(mock.Object);
         }
     }
 }
