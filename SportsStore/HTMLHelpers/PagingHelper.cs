@@ -10,14 +10,14 @@ namespace SportsStore.HTMLHelpers
 {
 	public static class PagingHelper
 	{
-		static MvcHtmlString PageLinks(this HtmlHelper htmlHelper,
+		public static MvcHtmlString PageLinks(this HtmlHelper htmlHelper,
 										PagingInfo pagingInfo,
 										Func<int, string> pageUrlFunc) {
 			var sb = new StringBuilder();
-			for (int i = 0; i < pagingInfo.TotalPages; i++) {
+			for (int i = 1; i < pagingInfo.TotalPages; i++) {
 				var tag = new TagBuilder("a");
 				tag.MergeAttribute("href", pageUrlFunc.Invoke(i));
-				tag.InnerHtml = string.Format("{0} ", i);
+				tag.InnerHtml = string.Format("Page {0} ", i);
 				//mark current page
 				if (i.Equals(pagingInfo.CurrentPage)) {
 					tag.AddCssClass("selected");

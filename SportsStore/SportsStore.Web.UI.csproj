@@ -140,6 +140,7 @@
     <Compile Include="HTMLHelpers\PagingHelper.cs" />
     <Compile Include="Infrastructure\NinjectDepencyResolver.cs" />
     <Compile Include="Models\PagingInfo.cs" />
+    <Compile Include="Models\ProducListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
