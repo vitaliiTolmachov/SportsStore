@@ -14,7 +14,7 @@ namespace SportsStore.HTMLHelpers
 										PagingInfo pagingInfo,
 										Func<int, string> pageUrlFunc) {
 			var sb = new StringBuilder();
-			for (int i = 1; i < pagingInfo.TotalPages; i++) {
+			for (int i = 1; i <= pagingInfo.TotalPages; i++) {
 				var tag = new TagBuilder("a");
 				tag.MergeAttribute("href", pageUrlFunc.Invoke(i));
 				tag.InnerHtml = string.Format("Page {0} ", i);
