@@ -7,17 +7,22 @@ using System.Web.Routing;
 
 namespace SportsStore
 {
-    public class RouteConfig
-    {
-        public static void RegisterRoutes(RouteCollection routes)
-        {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+	public class RouteConfig
+	{
+		public static void RegisterRoutes(RouteCollection routes)
+		{
+			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+			routes.MapRoute(
+				name: null,
+				//name on page {parametr in controller}
+				url: "Page{currentPage}",
+				defaults: new {controller = "Product", action = "List", id = UrlParameter.Optional});
 
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Product", action = "List", id = UrlParameter.Optional }
-            );
-        }
-    }
+			routes.MapRoute(
+				name: "Default",
+				url: "{controller}/{action}/{id}",
+				defaults: new { controller = "Product", action = "List", id = UrlParameter.Optional }
+			);
+		}
+	}
 }
