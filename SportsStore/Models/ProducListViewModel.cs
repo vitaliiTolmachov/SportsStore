@@ -10,5 +10,6 @@ namespace SportsStore.Models
 	{
 		public PagingInfo PagingInfo { get; set; }
 		public IEnumerable<Product> Products { get; set; }
+		public string Category { get; set; }
 	}
 }
