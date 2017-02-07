@@ -1,4 +1,5 @@
-﻿@using System.Runtime;
+﻿@using System.Globalization
+@using System.Runtime;
 @using SportsStore.Domain.Entities;
 @model SportsStore.Models.ProducListViewModel
 
@@ -7,13 +8,15 @@
 }
 
 @foreach(var product in Model.Products) {
-    <div>
-        <h3>@product.Name</h3>
-        @product.Description
-        <h4> @product.Price.ToString("c") </h4>
+    <div class="well">
+        <h3>
+            <strong>@product.Name</strong>
+            <span class="pull-right label label-primary">@product.Price.ToString("c",CultureInfo.CurrentCulture)</span>
+        </h3>
+        <span class="lead">@product.Description</span>
     </div>
 }
 
-<div>
+<div class="btn-group pull-right">
     @Html.PageLinks(Model.PagingInfo, i => Url.Action("List",new {currentPage = i}))
 </div>
