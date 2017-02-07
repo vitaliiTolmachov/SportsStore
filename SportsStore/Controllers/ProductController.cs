@@ -25,7 +25,8 @@ namespace SportsStore.Controllers
 					ProductsCount = this._repository.Products.Count()
 				},
 				Products = _repository.Products
-					.Where(p => p.Category == null || p.Category.Equals(category))
+					.Where(p => p.Category == null ||
+					p.Category?.ToLower() == category.ToLower())
 					.OrderBy(p => p.ProductId)
 					.Skip((currentPage - 1) * this.ProductsPerPage)
 					.Take(ProductsPerPage),

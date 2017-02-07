@@ -29,7 +29,7 @@ namespace SportsStore.UnitTests
 			});
 			//Act
 			var controller = new ProductController(mock.Object) { ProductsPerPage = 3 };
-			var result = (ProducListViewModel)controller.List(currentPage: 2).Model;
+			var result = (ProducListViewModel)controller.List(category:null,currentPage: 2).Model;
 
 			//Assert
 			var productsFromPage2 = result.Products.ToArray();
@@ -74,7 +74,7 @@ namespace SportsStore.UnitTests
 
 			//Act
 			var controller = new ProductController(mock.Object) { ProductsPerPage = 3 };
-			var result = (ProducListViewModel)controller.List(currentPage: 2).Model;
+			var result = (ProducListViewModel)controller.List(category:null, currentPage: 2).Model;
 
 			//Assert
 			PagingInfo page = result.PagingInfo;
