@@ -29,7 +29,7 @@ namespace SportsStore.UnitTests
 			});
 			//Act
 			var controller = new ProductController(mock.Object) { ProductsPerPage = 3 };
-			var result = (ProducListViewModel)controller.List(category:null,currentPage: 2).Model;
+			var result = (ProducListViewModel)controller.List(category: null, currentPage: 2).Model;
 
 			//Assert
 			var productsFromPage2 = result.Products.ToArray();
@@ -74,13 +74,36 @@ namespace SportsStore.UnitTests
 
 			//Act
 			var controller = new ProductController(mock.Object) { ProductsPerPage = 3 };
-			var result = (ProducListViewModel)controller.List(category:null, currentPage: 2).Model;
+			var result = (ProducListViewModel)controller.List(category: null, currentPage: 2).Model;
 
 			//Assert
 			PagingInfo page = result.PagingInfo;
 			Assert.AreEqual(page.CurrentPage, 2);
 			Assert.AreEqual(page.ProductsPerPage, 3);
 			Assert.AreEqual(page.TotalPages, 2);
+		}
+
+		[TestMethod]
+		public void CanCreateCategories() {
+			//Arrange
+			var mock = new Mock<IProductRepository>();
+			var fruits = "Fruits";
+			var vegetables = "Vegetables";
+			mock.Setup(m => m.Products).Returns(new[]
+			{
+				new Product {ProductId = 1, Name = "Banana", Category = fruits},
+				new Product {ProductId = 2, Name = "Apple", Category = fruits},
+				new Product {ProductId = 3, Name = "Potatos", Category = vegetables},
+				new Product {ProductId = 4, Name = "Orange", Category = fruits},
+				new Product {ProductId = 5, Name = "Tomato", Category = vegetables}
+			});
+			//Act
+			var target = ((IEnumerable<string>)new NavController(mock.Object).Menu().Model).ToArray();
+
+			//Assert
+			Assert.AreEqual(target.Length, 2);
+			Assert.AreSame(target[0], fruits);
+			Assert.AreSame(target[1], vegetables);
 		}
 	}
 }
