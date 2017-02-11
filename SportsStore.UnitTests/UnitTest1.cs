@@ -15,10 +15,11 @@ namespace SportsStore.UnitTests
 	[TestClass]
 	public class UnitTest1
 	{
+		Mock<IProductRepository> mock = new Mock<IProductRepository>();
+
 		[TestMethod]
 		public void CanPaginate() {
 			//Arrange
-			var mock = new Mock<IProductRepository>();
 			mock.Setup(repo => repo.Products).Returns(new[]
 			{
 				new Product {ProductId = 1,Name = "Product1"},
@@ -62,7 +63,6 @@ namespace SportsStore.UnitTests
 		[TestMethod]
 		public void Can_Send_Paginate_View_Model() {
 			//Arrange
-			var mock = new Mock<IProductRepository>();
 			mock.Setup(repo => repo.Products).Returns(new[]
 			{
 				new Product {ProductId = 1,Name = "Product1"},
@@ -110,7 +110,6 @@ namespace SportsStore.UnitTests
 			//Arrange
 			var fruits = "Fruits";
 			var vegetables = "Vegetables";
-			var mock = new Mock<IProductRepository>();
 			mock.Setup(repo => repo.Products).Returns(new[]
 			{
 				new Product {ProductId = 1, Name = "Banana", Category = fruits},
@@ -122,6 +121,37 @@ namespace SportsStore.UnitTests
 			var result = target.Menu(fruits).ViewBag.SelectedCategory;
 			//Assert
 			Assert.AreEqual(result, fruits);
+		}
+		[TestMethod]
+		public void Generate_Specific_Category_Page_Counter() {
+			//Arragne
+			var fruits = "Fruits";
+			var vegetables = "Vegetables";
+			var berries = "Berries";
+			mock.Setup(m => m.Products).Returns(new[]
+			{
+					new Product {ProductId = 1, Name = "Banana", Category = fruits},
+					new Product {ProductId = 2, Name = "Apple", Category = fruits},
+					new Product {ProductId = 4, Name = "Orange", Category = fruits},
+
+					new Product {ProductId = 3, Name = "Potatos", Category = vegetables},
+					new Product {ProductId = 5, Name = "Tomato", Category = vegetables},
+
+					new Product {ProductId = 6, Name = "Blueberry", Category = berries}
+				});
+			//Act
+			ProductController pc = new ProductController(mock.Object);
+			int currentpage = 1;
+			var fruitRes = ((ProducListViewModel)pc.List(fruits, currentpage).Model)
+				.PagingInfo.ProductsCount;
+			var vegetablesRes = ((ProducListViewModel)pc.List(vegetables, currentpage).Model)
+				.PagingInfo.ProductsCount;
+			var berriesRes = ((ProducListViewModel)pc.List(berries, currentpage).Model)
+				.PagingInfo.ProductsCount;
+			//Assert
+			Assert.AreEqual(fruitRes,3);
+			Assert.AreEqual(vegetablesRes, 2);
+			Assert.AreEqual(berriesRes, 1);
 		}
 	}
 }
