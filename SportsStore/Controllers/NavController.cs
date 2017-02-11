@@ -11,17 +11,17 @@ namespace SportsStore.Controllers
 	{
 		private IProductRepository productRepository;
 
-		public NavController(IProductRepository repo)
-		{
-			this.productRepository = repo;
+		public NavController(IProductRepository repo) {
+			productRepository = repo;
 		}
 		// GET: Nav
-		public PartialViewResult Menu()
-		{
+		public PartialViewResult Menu(string category = null) {
+			ViewBag.SelectedCategory = category;
+
 			IEnumerable<string> categories = productRepository.Products
 				.Select(product => product.Category)
 				.Distinct()
-				.OrderBy(category => category);
+				.OrderBy(x => x);
 
 			return PartialView(categories);
 		}
