@@ -22,7 +22,9 @@ namespace SportsStore.Controllers
 				PagingInfo = new PagingInfo {
 					CurrentPage = currentPage,
 					ProductsPerPage = this.ProductsPerPage,
-					ProductsCount = this._repository.Products.Count()
+					ProductsCount = category == null?
+					_repository.Products.Count() :
+					_repository.Products.Where(p=>p.Category.Equals(category)).Count()
 				},
 				Products = _repository.Products
 					.Where(p => category == null ||
