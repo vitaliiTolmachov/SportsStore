@@ -4,15 +4,16 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using SportsStore.Domain.Entities;
 
 namespace SportsStore.Domain.Entities
 {
-	class CartLine
+	public class CartLine
 	{
 		public Product Product{get; set;}
 		public int Quantity{get; set;}
 	}
-	class Cart
+	public class Cart
 	{
 		private List<CartLine> _lineCollecction = new List<CartLine>();
 		public IEnumerable<CartLine> Lines => _lineCollecction;
@@ -37,7 +38,7 @@ namespace SportsStore.Domain.Entities
 			this._lineCollecction.Clear();
 		}
 		public decimal GetTotal() {
-			return this._lineCollecction.Sum(p => p.Product.Price);
+			return this._lineCollecction.Sum(p => p.Product.Price * p.Quantity);
 		}
 	}
 }
