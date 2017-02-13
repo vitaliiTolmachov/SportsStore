@@ -16,39 +16,30 @@ namespace SportsStore.Controllers
 		public CartController(IProductRepository repo) {
 			this._repository = repo;
 		}
-		public ViewResult Index(string returnUrl)
+		public ViewResult Index(Cart cart,string returnUrl)
 		{
 			return View(new CartIndexViewModel
 			{
-				Cart = this.GetCart(),
+				Cart = cart,
 				ReturnUrl = returnUrl
 			});
 		}
-		private Cart GetCart() {
-			Cart cart = (Cart)Session["Cart"];
-			if (cart == null) {
-				cart = new Cart();
-				Session["Cart"] = cart;
-			}
-			return cart;
-
-		}
-		public RedirectToRouteResult AddToCart(int productId, string returnUrl) {
+		public RedirectToRouteResult AddToCart(Cart cart,int productId, string returnUrl) {
 			Product product = this._repository.Products
 				.Where(p => p.ProductId.Equals(productId))
 				.FirstOrDefault();
 
 			if (product != null)
-				this.GetCart().Add(product, 1);
+                cart.Add(product, 1);
 			return RedirectToAction("Index", new {returnUrl});
 		}
-		public RedirectToRouteResult RemoveFromCart(int productId, string returnUrl)
+		public RedirectToRouteResult RemoveFromCart(Cart cart,int productId, string returnUrl)
 		{
 			Product product = this._repository.Products
 				.Where(p => p.ProductId.Equals(productId))
 				.FirstOrDefault();
 			if(product!=null)
-				this.GetCart().Remove(product);
+                cart.Remove(product);
 			return RedirectToAction("Index", new {returnUrl});
 		}
 	}
