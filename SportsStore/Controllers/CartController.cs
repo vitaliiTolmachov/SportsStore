@@ -42,5 +42,9 @@ namespace SportsStore.Controllers
                 cart.Remove(product);
 			return RedirectToAction("Index", new {returnUrl});
 		}
+		public PartialViewResult Summary(Cart cart)
+		{
+			return PartialView(cart);
+		}
 	}
 }
