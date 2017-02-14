@@ -3,32 +3,44 @@
 @{
     ViewBag.Title = "Sprots Store: Your Cart";
 }
+<style>
+    #cartTable td {
+        vertical-align: middle;
+    }
+</style>
 <h2>Your Cart</h2>
-<table class="table">
+<table id="cartTable" class="table">
     <thead>
-    <tr>
-        <th>Item</th>
-        <th>Quantity</th>
-        <th class="text-right">Price</th>
-        <th class="text-right">Subtotal</th>
-    </tr>
+        <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th class="text-right">Price</th>
+            <th class="text-right">Subtotal</th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var line in Model.Cart.Lines)
-    {
-        <tr>
-            <td class="text-left">@line.Product.Name</td>
-            <td class="text-center">@line.Quantity</td>
-            <td class="text-right">@line.Product.Price.ToString("C")</td>
-            <td class="text-right">@((line.Quantity*line.Product.Price).ToString("C"))</td>
-        </tr>
-    }
+        @foreach (var line in Model.Cart.Lines) {
+            <tr>
+                <td class="text-left">@line.Product.Name</td>
+                <td class="text-center">@line.Quantity</td>
+                <td class="text-right">@line.Product.Price.ToString("C")</td>
+                <td class="text-right">@((line.Quantity * line.Product.Price).ToString("C"))</td>
+                <td>
+                    @using (Html.BeginForm("RemoveFromCart", "Cart")) {
+                        @Html.Hidden("productId", line.Product.ProductId)
+                        @Html.HiddenFor(model => model.ReturnUrl)
+                        <input type="submit" class="btn btn-warning" value="Remove" />
+                    }
+                </td>
+
+            </tr>
+        }
     </tbody>
     <tfoot>
-    <tr>
-        <td colspan="3" class="text-right">Total:</td>
-        <td class="text-right">@Model.Cart.GetTotal().ToString("C")</td>
-    </tr>
+        <tr>
+            <td colspan="3" class="text-right">Total:</td>
+            <td class="text-right">@Model.Cart.GetTotal().ToString("C")</td>
+        </tr>
     </tfoot>
 </table>
 <div class="text-center">
