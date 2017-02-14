@@ -4,7 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using SportsStore.Controllers;
+using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Entities;
+using SportsStore.Models;
 
 namespace SportsStore.UnitTests
 {
@@ -65,8 +69,8 @@ namespace SportsStore.UnitTests
 		[TestMethod]
 		public void Calculate_Total() {
 			//Arrange
-			var product1 = new Product { ProductId = 1, Name = "P1",Price = 50};
-			var product2 = new Product { ProductId = 2, Name = "P2",Price = 20};
+			var product1 = new Product { ProductId = 1, Name = "P1", Price = 50 };
+			var product2 = new Product { ProductId = 2, Name = "P2", Price = 20 };
 			var cartline = new Cart();
 			//Act
 			cartline.Add(product1, 2);
@@ -89,6 +93,52 @@ namespace SportsStore.UnitTests
 			cartline.Clear();
 			//Assert
 			Assert.AreEqual(cartline.Lines.Count(), 0);
+		}
+		[TestMethod]
+		public void Can_Add_To_Cart() {
+			//Arrange
+			var mock = new Mock<IProductRepository>();
+			mock.Setup(repo => repo.Products).Returns(new[]
+			{
+				new Product {ProductId = 1, Category = "Apple", Name = "P1"}
+			}.AsQueryable());
+			Cart cart = new Cart();
+			var target = new CartController(mock.Object);
+			//Act
+			target.AddToCart(cart, 1, null);
+			target.AddToCart(cart, 1, null);
+			//Assert
+			Assert.AreEqual(cart.Lines.Count(), 1);
+			Assert.AreEqual(cart.Lines.FirstOrDefault().Product.ProductId, 1);
+		}
+		[TestMethod]
+		public void Adding_ToCart_Goes_To_Card_Screen() {
+			//Arrange
+			var mock = new Mock<IProductRepository>();
+			mock.Setup(repo => repo.Products).Returns(new[]
+			{
+				new Product {ProductId = 1, Name = "P1", Category = "Apples"}
+			}.AsQueryable());
+			var cart = new Cart();
+			var target = new CartController(mock.Object);
+			//Act
+			var result = target.AddToCart(cart, 1, "returnUrl");
+			//Assert
+			Assert.AreEqual(result.RouteValues["action"],"Index");
+			Assert.AreEqual(result.RouteValues["returnUrl"], "returnUrl");
+		}
+		[TestMethod]
+		public void Can_View_Cart_Content() {
+			//Arrange
+			var cart = new Cart();
+			var cartcontroller = new CartController(null);
+			//Act
+			var reuslt = (CartIndexViewModel)cartcontroller.Index(cart, "myUrl").ViewData.Model;
+			//Assert
+			Assert.AreSame(reuslt.Cart, cart);
+			Assert.AreEqual(reuslt.ReturnUrl, "myUrl");
+
+
 		}
 	}
 }
