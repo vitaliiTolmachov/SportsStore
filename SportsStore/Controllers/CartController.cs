@@ -46,5 +46,9 @@ namespace SportsStore.Controllers
 		{
 			return PartialView(cart);
 		}
+		public ViewResult Checkout()
+		{
+			return View(new ShippingCartDetails());
+		}
 	}
 }
