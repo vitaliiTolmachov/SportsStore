@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +14,13 @@ namespace SportsStore.Domain.Entities
 		public string Name { get; set; }
 
 		[Required(ErrorMessage = "Please enter the first line address")]
+		[DisplayName(displayName:"Line 1")]
 		public string Line1 { get; set; }
 
+		[DisplayName(displayName: "Line 2")]
 		public string Line2 { get; set; }
+
+		[DisplayName(displayName: "Line 3")]
 		public string Line3 { get; set; }
 
 		[Required(ErrorMessage = "Please enter a city name")]
