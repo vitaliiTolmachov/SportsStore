@@ -22,7 +22,7 @@ namespace SportsStore.Domain.Concrete
         public bool UseSSL = true;
         //Set to true if U don't have connection and want to save email as file
         public bool WriteAsFile = true;
-        public string FileLocation = @"..\..\Emails";
+        public string FileLocation = @"C:\Users\Vitalii Tolmachov\Documents\Visual Studio 2013\Projects\MVC Practice\SportsStore\SportsStore\Emails";
 
         public string Subject = "New order submited";
     }
@@ -76,7 +76,7 @@ namespace SportsStore.Domain.Concrete
                     emailSettings.Subject,
                     body.ToString());
                 if (emailSettings.WriteAsFile) {
-                    message.BodyEncoding = Encoding.UTF8;
+                    message.BodyEncoding = Encoding.ASCII;
                 }
                 //TODO: Make async
                 smtpClient.Send(message);
