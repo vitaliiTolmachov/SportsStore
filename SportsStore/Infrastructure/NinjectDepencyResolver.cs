@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,42 +12,44 @@ using SportsStore.Domain.Concrete;
 
 namespace SportsStore.Infrastructure
 {
-    public class NinjectDepencyResolver :IDependencyResolver
+    public class NinjectDepencyResolver : IDependencyResolver
     {
         private IKernel kernel;
 
-        public NinjectDepencyResolver(IKernel paramKernel)
-        {
+        public NinjectDepencyResolver(IKernel paramKernel) {
             this.kernel = paramKernel;
             this.AddBindings();
         }
 
 
-        public object GetService(Type serviceType)
-        {
+        public object GetService(Type serviceType) {
             return kernel.TryGet(serviceType);
         }
 
-        public IEnumerable<object> GetServices(Type serviceType)
-        {
+        public IEnumerable<object> GetServices(Type serviceType) {
             return kernel.GetAll(serviceType);
         }
-        private void AddBindings()
-        {
+        private void AddBindings() {
             //My bindings will be here
-			//This binding returns data from DB using my own realization of DBContext
-	        this.kernel.Bind<IProductRepository>().To<EFProductRepository>();
+            //This binding returns data from DB using my own realization of DBContext
+            this.kernel.Bind<IProductRepository>().To<EFProductRepository>();
 
-	        //This mock returns constant collection of Products
-	        //var mock = new Mock<IProductRepository>();
-	        //mock.Setup(m => m.Products).Returns(new List<Product>
-	        //{
-	        //    new Product {Name = "Fooball", Price = 25},
-	        //    new Product {Name = "Surfboard", Price = 50},
-	        //    new Product {Name = "RuningShoes", Price = 15},
-	        //    new Product {Name = "Snowboard", Price = 100}
-	        //});
-	        //kernel.Bind<IProductRepository>().ToConstant(mock.Object);
+            EmailSettings emailSettings = new EmailSettings {
+                WriteAsFile = Boolean.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
+            };
+            kernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>()
+                .WithConstructorArgument("settings", emailSettings);
+
+            //This mock returns constant collection of Products
+            //var mock = new Mock<IProductRepository>();
+            //mock.Setup(m => m.Products).Returns(new List<Product>
+            //{
+            //    new Product {Name = "Fooball", Price = 25},
+            //    new Product {Name = "Surfboard", Price = 50},
+            //    new Product {Name = "RuningShoes", Price = 15},
+            //    new Product {Name = "Snowboard", Price = 100}
+            //});
+            //kernel.Bind<IProductRepository>().ToConstant(mock.Object);
         }
-    }
+}
 }
