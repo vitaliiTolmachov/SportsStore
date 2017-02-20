@@ -1,4 +1,7 @@
 ﻿.navbar-right {
     float: right !important;
-    margin-right: 15px;margin-left: 15px;
+    margin-right: 5px;
+}
+.navbar-brand {
+    padding-top: 5px;
 }
