@@ -1,0 +1,28 @@
+﻿@using System.Activities.Expressions
+@using System.ComponentModel
+@model IEnumerable<string>
+<div class="btn-group btn-group-sm btn-group-xs">
+    @Html.ActionLink(
+    linkText: "Home",
+    actionName: "List",
+    controllerName: "Product",
+    routeValues:null,
+    htmlAttributes: new {
+        @class = "btn btn-default btn-sm"
+    })
+
+    @foreach (string category in Model) {
+        @Html.RouteLink(
+            linkText: category,
+            routeValues: new {
+                controller = "Product",
+                action = "List",
+                category = category,
+                currentPage = 1
+            },
+            htmlAttributes: new {
+                @class = "brn btn-default btn-sm" + (category == ViewBag.SelectedCategory ?
+                    " btn-primary":String.Empty)
+            })
+    }
+</div>
