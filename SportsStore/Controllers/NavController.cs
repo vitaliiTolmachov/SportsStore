@@ -23,9 +23,9 @@ namespace SportsStore.Controllers
 				.Distinct()
 				.OrderBy(x => x);
 
-			string viewname = horizontalLayout ? "MenuHorizontal" : "Menu";
+			//string viewname = horizontalLayout ? "MenuHorizontal" : "Menu";
 
-			return PartialView(viewname,categories);
+			return PartialView("FlexMenu",categories);
 		}
 	}
 }
