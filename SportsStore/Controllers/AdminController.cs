@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SportsStore.Domain.Abstract;
+using SportsStore.Domain.Entities;
 
 namespace SportsStore.Controllers
 {
@@ -49,10 +50,12 @@ namespace SportsStore.Controllers
 		//}
 
 		//// GET: Admin/Edit/5
-		//public ActionResult Edit(int id)
-		//{
-		//    return View();
-		//}
+		public ViewResult Edit(int id)
+		{
+			Product product = _repository.Products.
+				FirstOrDefault(p => p.ProductId.Equals(id));
+			return View(product);
+		}
 
 		//// POST: Admin/Edit/5
 		//[HttpPost]
