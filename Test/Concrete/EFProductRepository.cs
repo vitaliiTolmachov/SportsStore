@@ -15,9 +15,13 @@ namespace SportsStore.Domain.Concrete
 
 		public IEnumerable<Product> Products => dbContext.Products;
 
-		public SelectList CategotyList
+		public IEnumerable<SelectListItem> CategotyList
 		{
-			get { return new SelectList(dbContext.Products.Select(p => p.Category).Distinct().ToList()); }
+			get
+			{
+				return dbContext.Products.Select(p => p.Category)
+					.Distinct().Select(categoty => new SelectListItem {Text = categoty, Value = categoty}).ToList().AsEnumerable();
+			}
 		}
 
 		public void SaveProduct(Product product)

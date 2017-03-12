@@ -11,7 +11,7 @@ namespace SportsStore.Domain.Abstract
 	public interface IProductRepository
 	{
 		IEnumerable<Product> Products { get;}
-		SelectList CategotyList { get;}
+		IEnumerable<SelectListItem> CategotyList { get;}
 		void SaveProduct(Product product);
 	}
 }

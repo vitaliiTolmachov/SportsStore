@@ -52,7 +52,7 @@ namespace SportsStore.Controllers
 		public ViewResult Edit(int id) {
 			Product product = _repository.Products.
 				FirstOrDefault(p => p.ProductId.Equals(id));
-			ViewData["CategoryList"] = _repository.CategotyList;
+			ViewData["CategoryList"] = (IEnumerable<SelectListItem>)_repository.CategotyList;
 			return View(product);
 		}
 
@@ -65,6 +65,7 @@ namespace SportsStore.Controllers
 					TempData["message"] = $"{product.Name} has been saved";
 					return RedirectToAction("Index");
 				} else {
+					ViewData["CategoryList"] = (IEnumerable<SelectListItem>)_repository.CategotyList;
 					return View(product);
 				}
 
