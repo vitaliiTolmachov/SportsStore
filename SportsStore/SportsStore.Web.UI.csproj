@@ -158,7 +158,6 @@
     <Compile Include="Infrastructure\Binders\CartModelBinder.cs" />
     <Compile Include="Infrastructure\NinjectDepencyResolver.cs" />
     <Compile Include="Models\CartIndexViewModel.cs" />
-    <Compile Include="Models\EditProductModel.cs" />
     <Compile Include="Models\PagingInfo.cs" />
     <Compile Include="Models\ProducListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
