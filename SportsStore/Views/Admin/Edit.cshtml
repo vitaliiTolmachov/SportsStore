@@ -1,4 +1,5 @@
-﻿@model SportsStore.Domain.Entities.Product
+﻿@using System.Diagnostics.Eventing.Reader
+@model SportsStore.Domain.Entities.Product
 
 @{
     ViewBag.Title = "Admin: Edit " + (@Model.Name);
@@ -10,22 +11,17 @@
     <div class="panel-heading">
         <h3>Edit @Model.Name</h3>
     </div>
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("Edit", "Admin")) {
         <div class="panel-body">
             @Html.HiddenFor(model => model.ProductId)
             @foreach (var property in ViewData.ModelMetadata.Properties) {
                 if (!property.PropertyName.Equals("ProductId")) {
                     <div class="form-group">
                         <label>@(property.DisplayName ?? property.PropertyName)</label>
+
                     </div>if (property.PropertyName.Equals("Description")) {
-                        @Html.TextArea(property.PropertyName, null, new {
-                       @class = "form-control",
-                       rows = 5
-                   })
-} else if (property.PropertyName.Equals("Category")) {
-                        @Html.DropDownListFor(m => m.Category, (IEnumerable<SelectListItem>)ViewData["CategoryList"], new {
-                       @class = "list-group list-group-item"
-                   })} else {
+                        @Html.TextArea(property.PropertyName, null, new {@class = "form-control",rows = 5})}
+                     else {
                         @Html.TextBox(property.PropertyName, null, new {
                        @class = "form-control"
                    })
