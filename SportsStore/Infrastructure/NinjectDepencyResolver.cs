@@ -9,6 +9,8 @@ using Ninject;
 using SportsStore.Domain.Abstract;
 using SportsStore.Domain.Entities;
 using SportsStore.Domain.Concrete;
+using SportsStore.Infrastructure.Abstract;
+using SportsStore.Infrastructure.Concrete;
 
 namespace SportsStore.Infrastructure
 {
@@ -50,6 +52,8 @@ namespace SportsStore.Infrastructure
             //    new Product {Name = "Snowboard", Price = 100}
             //});
             //kernel.Bind<IProductRepository>().ToConstant(mock.Object);
+
+	        kernel.Bind<IAuthProvider>().To<AuthProvider>();
         }
 }
 }
