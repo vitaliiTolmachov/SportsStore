@@ -21,34 +21,12 @@ namespace SportsStore.Controllers
 			return View(_repository.Products);
 		}
 
-		//// GET: Admin/Details/5
-		//public ActionResult Details(int id)
-		//{
-		//    return View();
-		//}
 
 		//// GET: Admin/Create
 		public ActionResult Create() {
 			return View("Edit", new Product());
 		}
 
-		//// POST: Admin/Create
-		//[HttpPost]
-		//public ActionResult Create(FormCollection collection)
-		//{
-		//    try
-		//    {
-		//        // TODO: Add insert logic here
-
-		//        return RedirectToAction("Index");
-		//    }
-		//    catch
-		//    {
-		//        return View();
-		//    }
-		//}
-
-		//// GET: Admin/Edit/5
 		public ViewResult Edit(int id) {
 			Product product = _repository.Products.
 				FirstOrDefault(p => p.ProductId.Equals(id));
@@ -58,9 +36,15 @@ namespace SportsStore.Controllers
 
 		//// POST: Admin/Edit/5
 		[HttpPost]
-		public ActionResult Edit(Product product) {
+		public ActionResult Edit(Product product, HttpPostedFileBase image = null) {
 			try {
 				if (ModelState.IsValid) {
+					if (image != null)
+					{
+						product.ImageMimeType = image.ContentType;
+						product.ImageData = new byte[image.ContentLength];
+						image.InputStream.Read(product.ImageData, 0, image.ContentLength);
+					}
 					_repository.SaveProduct(product);
 					TempData["message"] = $"{product.Name} has been saved";
 					return RedirectToAction("Index");
@@ -73,12 +57,6 @@ namespace SportsStore.Controllers
 				return View(product);
 			}
 		}
-
-		//// GET: Admin/Delete/5
-		//public ActionResult Delete(int id)
-		//{
-		//    return View();
-		//}
 
 		//// POST: Admin/Delete/5
 		[HttpPost]
