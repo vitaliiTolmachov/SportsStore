@@ -80,19 +80,20 @@ namespace SportsStore.Controllers
 		//}
 
 		//// POST: Admin/Delete/5
-		//[HttpPost]
-		//public ActionResult Delete(int id, FormCollection collection)
-		//{
-		//    try
-		//    {
-		//        // TODO: Add delete logic here
+		[HttpPost]
+		public ActionResult Delete(int productId) {
+			try {
+				// TODO: Add delete logic here
+				var product = _repository.Delete(productId);
+				if (product != null)
+				{
+					TempData["message"] = $"{product.Name} was deleted";
+				}
 
-		//        return RedirectToAction("Index");
-		//    }
-		//    catch
-		//    {
-		//        return View();
-		//    }
-		//}
+				return RedirectToAction("Index");
+			} catch {
+				return RedirectToAction("Index");
+			}
+		}
 	}
 }

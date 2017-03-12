@@ -13,5 +13,6 @@ namespace SportsStore.Domain.Abstract
 		IEnumerable<Product> Products { get;}
 		IEnumerable<SelectListItem> CategotyList { get;}
 		void SaveProduct(Product product);
+		Product Delete(int ProductId);
 	}
 }
