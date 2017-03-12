@@ -5,7 +5,8 @@ namespace SportsStore.Domain.Entities
 {
 	public class Product
 	{
-		[HiddenInput(DisplayValue = false)]
+		[HiddenInput(DisplayValue = true)]
+		[Editable(false)]
 		public int ProductId{get; set;}
 		public string Name { get; set; }
 		public string Description { get; set; }

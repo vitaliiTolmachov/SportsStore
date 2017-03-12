@@ -12,7 +12,7 @@
     </div>
     @using (Html.BeginForm()) {
         <div class="panel-body">
-            @Html.HiddenFor(p => p.ProductId)
+            @Html.HiddenFor(model => model.ProductId)
             @foreach (var property in ViewData.ModelMetadata.Properties)
             {
                 if (!property.PropertyName.Equals("ProductId"))
@@ -23,6 +23,10 @@
                     if (property.PropertyName.Equals("Description"))
                     {
                         @Html.TextArea(property.PropertyName, null, new {@class = "form-control", rows = 5})
+                    }
+                    else if(property.PropertyName.Equals("Category"))
+                    {
+                        @Html.DropDownListFor(model =>model.Category, (SelectList)ViewData["CategoryList"],new {@class = "list-group list-group-item"})
                     }
                     else
                     {
